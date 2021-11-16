@@ -1,0 +1,6 @@
+{
+    
+    "component":true,
+    "usingComponents": {"customdate":"/components/customdate/customdate"},
+    "styleIsolation":"apply-shared"
+  }

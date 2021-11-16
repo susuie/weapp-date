@@ -1,0 +1,160 @@
+<view>
+    <view class="el-picker-panel__body">
+        <view
+            class="el-date-picker__header {{ currentView === 'year' || currentView === 'month'?'el-date-picker__header--bordered': '' }}"
+        >
+            <button
+              type="button"
+              catchtap="prevYear"
+              aria-label="前一年"
+              class="el-picker-panel__icon-btn el-date-picker__prev-btn iconfont icon-prev-year">
+            </button>
+            <button
+              type="button"
+              catchtap="prevMonth"
+              hidden="{{currentView !== 'date'}}"
+              aria-label="上个月"
+              class="el-picker-panel__icon-btn el-date-picker__prev-btn iconfont icon-prev-month">
+            </button>
+            <view
+              catchtap="showYearPicker"
+              role="button"
+              class="el-date-picker__header-label">{{ yearLabel }}</view>
+            <view
+              catchtap="showMonthPicker"
+              hidden="{{currentView !== 'date'}}"
+              role="button"
+              class="el-date-picker__header-label {{ currentView === 'month'?'active':''  }}"> {{ month+1 }} 月</view>
+            <button
+              type="button"
+              catchtap="nextYear"
+              aria-label="后一年"
+              class="el-picker-panel__icon-btn el-date-picker__next-btn iconfont icon-next-year">
+            </button>
+            <button
+              type="button"
+              catchtap="nextMonth"
+              hidden="{{currentView !== 'date'}}"
+              aria-label="下个月"
+              class="el-picker-panel__icon-btn el-date-picker__next-btn iconfont icon-next-month">
+            </button>
+        </view>
+        <view class="el-picker-panel__content">
+            <view class="year" hidden="{{currentView!=='year'}}">
+                <table class="el-year-table">
+                    <tbody>
+                    <tr>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 0 === year?'current':''}}" data-year="{{startYear}}">
+                        <a class="cell">{{ startYear }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 1 === year?'current':''}}" data-year="{{startYear+1}}">
+                        <a class="cell">{{ startYear + 1 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 2 === year?'current':''}}" data-year="{{startYear+2}}">
+                        <a class="cell">{{ startYear + 2 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 3 === year?'current':''}}" data-year="{{startYear+3}}">
+                        <a class="cell">{{ startYear + 3 }}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 4 === year?'current':''}}" data-year="{{startYear+4}}">
+                        <a class="cell">{{ startYear + 4 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 5 === year?'current':''}}" data-year="{{startYear+5}}">
+                        <a class="cell">{{ startYear + 5 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 6 === year?'current':''}}" data-year="{{startYear+6}}">
+                        <a class="cell">{{ startYear + 6 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 7 === year?'current':''}}" data-year="{{startYear+7}}">
+                        <a class="cell">{{ startYear + 7 }}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 8 === year ? 'current':''}}" data-year="{{startYear+8}}">
+                        <a class="cell">{{ startYear + 8 }}</a>
+                    </td>
+                    <td bindtap="handleYearTableClick" class="available {{startYear + 9 === year ? 'current':''}}" data-year="{{startYear+9}}">
+                        <a class="cell">{{ startYear + 9 }}</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </view>
+            <view class="month" hidden="{{currentView!=='month'}}">
+                <table catchtouchmove="handleMouseMove" class="el-month-table">
+                    <tbody>
+                    <tr wx:for="{{monthRows}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="rowIndex">
+                    <td catchtap="handleMonthTableClick" data-row="{{rowIndex}}" data-cell="{{cellIndex}}" class="{{cell.type}} {{monthCurrent===cell.text?'current':''}}" wx:for="{{row}}" wx:for-item="cell" wx:for-index="cellIndex" wx:key="cellIndex">
+                        <div>
+                            <a class="cell">{{ months[cell.text] }}</a>
+                        </div>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </view>
+            <view class="date" hidden="{{currentView!=='date'}}">
+                <table
+                cellspacing="0"
+                cellpadding="0"
+                catchtouchmove="handleMouseMove"
+                class="el-date-table {{selectionMode === 'week' ? 'is-week-mode' : ''}}">
+                    <tbody>
+                        <tr>
+                            <th wx:for="{{WEEKS}}" wx:key="index">{{ item }}</th>
+                        </tr>
+                        <tr
+                        class="el-date-table__row {{ isWeekActive === rowIndex ? 'current':'' }}"
+                        wx:for="{{rows}}"
+                        wx:for-item="row"
+                        wx:for-index="rowIndex"
+                        wx:key="rowIndex">
+                            <td
+                                catchtap="handleDatePick"
+                                data-text="{{cell.text}}"
+                                data-index="{{rowIndex}}"
+                                data-type="{{cell.type}}"
+                                wx:for="{{row}}"
+                                wx:for-item="cell"
+                                class="{{cell.type}}"
+                                wx:key="index">
+                                <div>
+                                <span>
+                                    {{ cell.text }}
+                                </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <view class="shortcut" catchtap="setShortcutDate" hidden="{{selectMode !== 'week'}}">本周</view>
+            </view>
+            <view class="season" hidden="{{currentView!=='season'}}">
+                <table class="el-season-table">
+                    <tbody>
+                    <tr>
+                    <td catchtap="handleSeasonPick" data-text="第一季度" data-index="0" class="available" class="{{season===0?'current':''}}">
+                        <a class="cell">第一季度</a>
+                    </td>
+                    <td catchtap="handleSeasonPick" data-text="第二季度" data-index="1" class="available" class="{{season===1?'current':''}}">
+                        <a class="cell">第二季度</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td catchtap="handleSeasonPick" data-text="第三季度" data-index="2" class="available" class="{{season===2?'current':''}}">
+                        <a class="cell"> 第三季度 </a>
+                    </td>
+                    <td catchtap="handleSeasonPick" data-text="第四季度" data-index="3" class="available" class="{{season===3?'current':''}}">
+                        <a class="cell"> 第四季度 </a>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </view>
+        </view>
+    </view>
+</view>

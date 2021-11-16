@@ -1,0 +1,16 @@
+<view>
+    <view>
+        <table>
+            <tr>
+                <td catchtap="changeTab" class="{{selectItem===item.value?'current':''}}" wx:for="{{options}}" wx:key="index" data-type="{{item.value}}">{{item.label}}</td>
+            </tr>
+        </table>    
+    </view>
+    <view> 
+        <input class="date-input" value="{{valueDate}}" disabled="true" catchtap="changeShow" />      
+        <slot></slot>
+    </view>
+    <view hidden="{{!showPick}}">
+        <customdate wishView="{{wishView+'|'+select[wishView==='date'?selectMode:wishView]+'|'+selectItem}}" selectMode="{{selectMode}}" bind:getContent="getContent"></customdate>
+    </view>
+</view>

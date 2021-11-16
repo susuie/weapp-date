@@ -1,0 +1,15 @@
+input{
+    border: 1px solid #ccc;
+    width: 60%;
+    margin: 20rpx;
+    border-radius: 8rpx;
+    min-height: 50rpx;
+}
+table{
+    border:none;
+}
+table tr .current{
+    color:#409EFF;
+    border-bottom:2px solid #409EFF;
+    border-radius:2rpx;
+}
